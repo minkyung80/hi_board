@@ -2,9 +2,17 @@ package com.care.hi_board;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-@SpringBootApplication
-public class HiBoardApplication {
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+public class HiBoardApplication extends SpringBootServletInitializer{
+	
+	@Override
+	protected SpringApplicationBuilder createSpringApplicationBuilder() {
+		return super.createSpringApplicationBuilder();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(HiBoardApplication.class, args);
