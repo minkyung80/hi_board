@@ -5,4 +5,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.care.hi_board.member.MemberMapper">
+	<resultMap type="com.care.hi_board.member.MemberDTO" id="memberDTO">
+		<id column="id" property="id" />
+		<result column="pw" property="pw" />
+		<result column="user_name" property="userName" />
+		<result column="address" property="address" />
+		<result column="mobile" property="mobile" />
+	</resultMap>
+	
+	<select id="loginProc" resultMap="memberDTO">
+		SELECT * FROM hi_board WHERE id=#{id}
+	</select>
 </mapper>
