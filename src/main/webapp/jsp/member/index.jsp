@@ -11,7 +11,7 @@
 	<c:import url="/header" />
 	<c:import url="/main" />
 	<div align="center">
-		메인
+		
 	</div>
 	<c:import url="/footer"/>
 </body>

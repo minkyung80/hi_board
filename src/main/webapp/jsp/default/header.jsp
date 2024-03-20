@@ -3,15 +3,16 @@
 <style type="text/css">
 	a {text-decoration: none; color:black;}
 	ul {padding: 20px;}
-	ul li {display: 150px; padding-top : 80px;}
+	ul li {display: inline; padding : 15px;}
+	.main_div{height: 150px; padding-top : 80px;}
 </style>
 
-<div aling="center">
+<div align="center">
 	<h1>CARE</h1>
 </div>
 
 <c:url var="context" value="/"/>
-<div align="right"></div>
+<div align="right">
 	<hr>
 	<ul>
 		<li><a href="${context }index">HOME</a></li>		
