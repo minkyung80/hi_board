@@ -1,8 +1,13 @@
 package com.care.hi_board.member;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import com.care.hi_board.common.PageService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,6 +37,61 @@ public class MemberService {
 				}
 			}
 			return "아이디/비밀번호를 확인 후 다시 시도하세요.";
+	}
+	
+	public String registerProc(MemberDTO member, String confirm) {
+		if(member.getId() == null || member.getId().isEmpty()) {
+			return "아이디를 입력하세요.";
+		}
+		
+		if(member.getPw() == null || member.getPw().isEmpty()) {
+			return "비밀번호를 입력하세요.";
+		}
+		
+		if(member.getPw().equals(confirm) == false) {
+			return "두 비밀번호를 일치하여 입력하세요.";
+		}
+		
+		if(member.getUserName() == null || member.getUserName().isEmpty()) {
+			return "이름을 입력하세요.";
+		}
+	
+		MemberDTO result = memberMapper.loginProc(member.getId());
+		if(result == null) {
+			BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
+			String cryptPassword = bpe.encode(member.getPw());
+			member.setPw(cryptPassword);
+			memberMapper.registerProc(member);
+			return "회원 등록 완료";
+		}
+		
+		return "이미 가입된 아이디 입니다.";
+	}
+
+	public void memberInfo(String cp, String select, String search, Model model) {
+		if(select == null){
+			select = "";
+		}
+		
+		int currentPage = 1;
+		try{
+			currentPage = Integer.parseInt(cp);
+		}catch(Exception e){
+			currentPage = 1;
+		}
+		
+		int pageBlock = 3; // 한 페이지에 보일 데이터의 수 
+		int end = pageBlock * currentPage; // 테이블에서 가져올 마지막 행번호
+		int begin = end - pageBlock + 1; // 테이블에서 가져올 시작 행번호
+	
+		ArrayList<MemberDTO> members = memberMapper.memberInfo(begin, end, select, search);
+		int totalCount = memberMapper.count(select, search);
+		String url = "memberInfo?select="+select+"&search="+search+"&currentPage=";
+		String result = PageService.printPage(url, currentPage, totalCount, pageBlock);
+		
+		model.addAttribute("members", members);
+		model.addAttribute("result", result);
+		model.addAttribute("currentPage", currentPage);
 	}
 
 }

@@ -16,4 +16,47 @@
 	<select id="loginProc" resultMap="memberDTO">
 		SELECT * FROM hi_board WHERE id=#{id}
 	</select>
+	
+		<insert id="registerProc" parameterType="com.care.boot.member.MemberDTO">
+		INSERT INTO session_quiz VALUES(#{id}, #{pw}, #{userName}, #{address}, #{mobile})
+	</insert>
+	
+	<select id="count">
+		<choose>
+	  		<when test="select == 'id'">
+	  			SELECT count(id) FROM session_quiz WHERE id like '%'||#{search}||'%'
+	  		</when>
+	  		<when test="select == 'mobile'">
+	  			SELECT count(id) FROM session_quiz WHERE mobile like '%'||#{search}||'%'
+	  		</when>
+	  		<otherwise>
+	  			SELECT count(id) FROM session_quiz
+	  		</otherwise>
+		</choose>
+	</select>
+  
+	<select id="memberInfo" resultMap="memberDto">
+		<choose>
+			<when test="select == 'id'">
+				SELECT AAA.* FROM 
+				(SELECT rownum as rn, id, pw, user_name, address, mobile 
+				FROM session_quiz WHERE id like '%'||#{search}||'%')AAA 
+				WHERE AAA.rn BETWEEN #{begin} AND #{end}
+			</when>
+			<when test="select == 'mobile'">
+				SELECT AAA.* FROM 
+				(SELECT rownum as rn, id, pw, user_name, address, mobile 
+				FROM session_quiz WHERE mobile like '%'||#{search}||'%')AAA 
+				WHERE AAA.rn BETWEEN #{begin} AND #{end}
+			</when>
+			<otherwise>
+				SELECT AAA.* FROM 
+				(SELECT rownum as rn, id, pw, user_name, address, mobile  
+				FROM session_quiz )AAA 
+				WHERE AAA.rn BETWEEN #{begin} AND #{end}
+			</otherwise>
+		</choose>
+	</select>
+	
+	
 </mapper>

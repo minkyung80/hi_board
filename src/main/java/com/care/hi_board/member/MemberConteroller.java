@@ -2,9 +2,11 @@ package com.care.hi_board.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class MemberConteroller {
@@ -41,6 +43,27 @@ public class MemberConteroller {
 			return "redirect:index";
 		}
 		return "member/login";
+	}
+	
+	@GetMapping("register")
+	public String register() {
+		return "member/register";
+	}
+	@PostMapping("registerProc")
+	public String registerProc(MemberDTO member, String confirm) {
+		String result = service.registerProc(member, confirm);
+		if(result.equals("회원 등록 완료")) {
+			return "redirect:index";
+		}
+		return "member/register";
+	}
+	
+	@RequestMapping("memberInfo")
+	public String memberInfo(
+			@RequestParam(value="currentPage", required = false)String cp,
+			String select, String search, Model model) {
+		service.memberInfo(cp, select, search, model);
+		return "member/memberInfo";
 	}
 
 }

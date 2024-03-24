@@ -8,7 +8,7 @@
 	<h1>회원 등록</h1>
 	<table><tr><td>
 		<form action = "registerProc" method="post" id="f">
-			<input type="text" name="id" placeholder="아이디" id="id">
+			<input type="text" name="id" placeholder="아이디" id="id"><br>
 			<input type="password" name="pw" placeholder="비밀번호" id="pw"><br>
 			<input type="password" name="confirm" placeholder="비밀번호 확인" id="confirm" onchange="">
 			<label id="label" ></label><br>
@@ -16,7 +16,7 @@
 			<input type="text" name="address" id="adress" placeholder="주소" ><br>
 			<input type="text" name="mobile" id="mobile" placeholder="전화번호" ><br>
 			
-			<input type="button" value="회원가입" onclick="allCheck()">
+			<input type="button" value="회원가입" >
 			<input type="button" value="취소" onclick="location.href='index'"><br>
 			
 		</form>
