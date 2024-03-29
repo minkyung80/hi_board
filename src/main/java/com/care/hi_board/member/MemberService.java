@@ -93,5 +93,28 @@ public class MemberService {
 		model.addAttribute("result", result);
 		model.addAttribute("currentPage", currentPage);
 	}
+	
+	public String updateProc(MemberDTO member, String confirm) {
+		if(member.getPw() == null || member.getPw().isEmpty()) {
+			return "비밀번호를 입력하세요.";
+		}
+		
+		if(member.getPw().equals(confirm) == false) {
+			return "두 비밀번호를 일치하여 입력하세요.";
+		}
+		
+		if(member.getUserName() == null || member.getUserName().isEmpty()) {
+			return "이름을 입력하세요.";
+		}
+		
+		BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
+		String cryptPassword = bpe.encode(member.getPw());
+		member.setPw(cryptPassword);
+		
+		int result = memberMapper.updateProc(member);
+		if(result == 1)
+			return "회원 정보 수정 완료";
+		return "회원 정보 수정 실패";
+	}
 
 }

@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class MemberConteroller {
 	@Autowired private MemberService service;
+	@Autowired private HttpSession session;
 	
 	@RequestMapping("index")
 	public String index() {
@@ -65,5 +68,31 @@ public class MemberConteroller {
 		service.memberInfo(cp, select, search, model);
 		return "member/memberInfo";
 	}
+	
+	
+	@GetMapping("update")
+	public String update() {
+		String id = (String)session.getAttribute("id");
+		if(id == null || id.isEmpty()) {
+			return "redirect:login";
+		}
+		return "member/update";
+	}
+	
+	@PostMapping("updateProc")
+	public String updateProc(MemberDTO member, String confirm) {
+		String id = (String)session.getAttribute("id");
+		if(id == null || id.isEmpty()) {
+			return "redirect:login";
+		}
+		member.setId(id);
+		String result = service.updateProc(member, confirm);
+		if(result.equals("회원 정보 수정 완료")) {
+			return "forward:logout";
+		}
+		return "member/update";
+	}
+	
+	
 
 }

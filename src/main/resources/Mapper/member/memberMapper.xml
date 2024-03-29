@@ -58,5 +58,11 @@
 		</choose>
 	</select>
 	
+	<update id="updateProc" parameterType="com.care.boot.member.MemberDTO">
+		UPDATE session_quiz 
+		SET pw=#{pw}, user_name=#{userName}, address=#{address}, mobile=#{mobile} 
+		WHERE id=#{id}
+	</update>
+	
 	
 </mapper>
