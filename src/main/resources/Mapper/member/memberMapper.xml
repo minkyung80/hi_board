@@ -64,5 +64,9 @@
 		WHERE id=#{id}
 	</update>
 	
+	<delete id="delete">
+		DELETE FROM session_quiz WHERE id=#{id}
+	</delete>
+	
 	
 </mapper>

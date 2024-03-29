@@ -19,4 +19,6 @@ int count(@Param("select")String select, @Param("search")String search);
 	
 int updateProc(MemberDTO member);
 
+void delete(String id);
+
 }

@@ -116,5 +116,22 @@ public class MemberService {
 			return "회원 정보 수정 완료";
 		return "회원 정보 수정 실패";
 	}
+	
+	public String deleteProc(String id, String pw, String confirmPw) {
+		if(pw == null || pw.isEmpty()) {
+			return "비밀번호를 입력하세요.";
+		}
+		
+		if(pw.equals(confirmPw) == false) {
+			return "두 비밀번호를 일치하여 입력하세요.";
+		}
+		BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
+		MemberDTO member = memberMapper.loginProc(id);
+		if(member != null && bpe.matches(pw, member.getPw())) {
+			memberMapper.delete(id);
+			return "회원 정보 삭제 완료";
+		}
+		return "비밀번호를 확인 후 다시 시도하세요.";
+	}
 
 }

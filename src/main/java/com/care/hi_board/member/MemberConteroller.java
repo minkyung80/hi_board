@@ -93,6 +93,30 @@ public class MemberConteroller {
 		return "member/update";
 	}
 	
+	@GetMapping("delete")
+	public String delete() {
+		String id = (String)session.getAttribute("id");
+		if(id == null || id.isEmpty()) {
+			return "redirect:login";
+		}
+		return "member/delete";
+	}
+	
+	@PostMapping("deleteProc")
+	public String deleteProc(String pw, String confirmPw, Model model) {
+		String id = (String)session.getAttribute("id");
+		if(id == null || id.isEmpty()) {
+			return "redirect:login";
+		}
+		
+		String result = service.deleteProc(id, pw, confirmPw);
+		model.addAttribute("msg", result);
+		if(result.equals("회원 정보 삭제 완료")) {
+			return "forward:logout";
+		}
+		return "member/delete";
+	}
+	
 	
 
 }
